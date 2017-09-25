@@ -170,8 +170,6 @@ extension QueryRepresentable where Self: ExecutorRepresentable {
             E.didCreate(entity: entity)
             entity.didCreate()
         }
-        
-        entity.storage.fetchedRow = try entity.makeRow()
     }
 }
 
