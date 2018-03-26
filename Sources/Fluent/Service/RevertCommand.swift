@@ -38,14 +38,13 @@ public final class RevertCommand: Command, Service {
     public func run(using context: CommandContext) throws -> Future<Void> {
         let migrations = try context.container.make(MigrationConfig.self)
         let logger = try context.container.make(Logger.self)
+        context.console.confirmOverride = true
 
         if context.options["all"]?.bool == true {
             logger.info("Revert all migrations requested")
             logger.warning("This will revert all migrations for all configured databases")
-            if context.options["yes"]?.bool == false {
-                guard context.console.ask("Are you sure you want to revert all migrations?").bool == true else {
-                    throw FluentError(identifier: "cancelled", reason: "Migration revert cancelled", source: .capture())
-                }
+            guard try context.console.confirm("Are you sure you want to revert all migrations?") == true else {
+                throw FluentError(identifier: "cancelled", reason: "Migration revert cancelled", source: .capture())
             }
 
             return migrations.storage.map { (uid, migration) in
@@ -59,10 +58,8 @@ public final class RevertCommand: Command, Service {
         } else {
             logger.info("Revert last batch of migrations requested")
             logger.warning("This will revert the last batch of migrations for all configured databases")
-            if context.options["yes"]?.bool == false {
-                guard context.console.ask("Are you sure you want to revert the last batch of migrations?").bool == true else {
-                    throw FluentError(identifier: "cancelled", reason: "Migration revert cancelled", source: .capture())
-                }
+            guard try context.console.confirm("Are you sure you want to revert the last batch of migrations?") == true else {
+                throw FluentError(identifier: "cancelled", reason: "Migration revert cancelled", source: .capture())
             }
 
             return migrations.storage.map { (uid, migration) in
