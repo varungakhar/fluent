@@ -15,7 +15,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "Fluent", dependencies: [
-            .product(name: "FluentKit", package: "varunfluent-kit"),
+            .product(name: "FluentKit", package: "fluent-kit"),
             .product(name: "Vapor", package: "vapor"),
         ]),
         .testTarget(name: "FluentTests", dependencies: [
