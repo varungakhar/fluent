@@ -10,12 +10,12 @@ let package = Package(
         .library(name: "Fluent", targets: ["Fluent"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/fluent-kit.git", from: "1.0.0-rc.1"),
+        .package(url: "https://github.com/varungakhar/fluent-kit.git", .branch("vapor_fluent_kit")),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0-rc.1"),
     ],
     targets: [
         .target(name: "Fluent", dependencies: [
-            .product(name: "FluentKit", package: "fluent-kit"),
+            .product(name: "FluentKit", package: "varunfluent-kit"),
             .product(name: "Vapor", package: "vapor"),
         ]),
         .testTarget(name: "FluentTests", dependencies: [
